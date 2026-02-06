@@ -1,0 +1,130 @@
+:root {
+    --bg-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    --rose-red: #e63946;
+    --ribbon-gold: #ffd700;
+    --box-color: #ff85a2; 
+    --box-pattern: radial-gradient(#ff4d6d 15%, transparent 16%), 
+                   radial-gradient(#ff4d6d 15%, transparent 16%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-gradient);
+    height: 100vh;
+    transition: background 2s ease-in-out;
+}
+
+body.dark-bg { background: #000; }
+
+/* Falling Petals */
+#petal-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+.petal { position: absolute; background-color: #ff4d6d; border-radius: 150% 0 150% 0; opacity: 0.7; animation: fall linear infinite; }
+@keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.8; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+.gift-container {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100vh; perspective: 1200px; position: relative;
+}
+
+/* --- THE COLOURFUL BOX --- */
+.gift-box {
+    width: 200px; height: 150px; /* Reduced height for better perspective */
+    position: relative;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    transition: all 0.8s ease-in-out;
+    z-index: 5;
+    transform: rotateX(-15deg) rotateY(20deg);
+}
+
+.gift-box-hide { opacity: 0 !important; transform: scale(0) !important; visibility: hidden; }
+
+.box-body { width: 100%; height: 100%; position: absolute; transform-style: preserve-3d; }
+
+.box-side, .lid-side, .lid-top, .box-bottom { 
+    position: absolute; 
+    background-color: var(--box-color);
+    background-image: var(--box-pattern);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    border: 1px solid #ff4d6d; 
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.15); 
+}
+
+/* Box sides adjusted to meet the lid */
+.box-side { width: 200px; height: 150px; top: 0; }
+.side-1 { transform: rotateY(0deg) translateZ(100px); }
+.side-2 { transform: rotateY(90deg) translateZ(100px); }
+.side-3 { transform: rotateY(180deg) translateZ(100px); }
+.side-4 { transform: rotateY(-90deg) translateZ(100px); }
+.box-bottom { width: 200px; height: 200px; transform: rotateX(90deg) translateZ(50px); }
+
+/* LID - Recalibrated to be CLOSED */
+.lid { 
+    width: 210px; height: 40px; 
+    position: absolute; 
+    top: -10px; left: -5px; 
+    transform-style: preserve-3d; 
+    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); 
+    z-index: 6; 
+    transform: translateZ(0); /* Resets any offset that looked 'open' */
+}
+.lid-top { width: 210px; height: 210px; transform: rotateX(90deg) translateZ(20px); }
+.lid-side { width: 210px; height: 40px; }
+
+/* RIBBONS */
+.ribbon-v, .ribbon-h { position: absolute; background: var(--ribbon-gold); z-index: 10; transition: 0.8s; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
+.ribbon-v { width: 40px; height: 100%; left: 80px; transform: translateZ(102px); }
+.ribbon-h { width: 100%; height: 40px; top: 55px; transform: translateZ(102px); }
+
+/* Ribbon Bow */
+.bow-left, .bow-right {
+    position: absolute; width: 60px; height: 40px; background: var(--ribbon-gold);
+    top: 50%; left: 50%; border-radius: 50%; border: 2px solid #d4af37;
+}
+.bow-left { transform: translate(-90%, -150%) rotate(-35deg); }
+.bow-right { transform: translate(-10%, -150%) rotate(35deg); }
+
+/* --- THE BOUQUET --- */
+.bouquet {
+    position: absolute; width: 250px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0; transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 100; pointer-events: none;
+}
+.bouquet-pop { transform: translate(-50%, -60%) scale(1.8) !important; opacity: 1 !important; }
+.bouquet img { width: 100%; filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.6)); animation: sway 3s ease-in-out infinite; }
+
+@keyframes sway { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+
+/* --- TYPOGRAPHY --- */
+.instruction-text { 
+    margin-top: 80px; color: var(--rose-red); 
+    font-family: 'Dancing Script', cursive; font-size: 1.8rem;
+    animation: pulse 2s infinite; 
+}
+
+.celebration-text { position: absolute; bottom: 10%; text-align: center; display: none; z-index: 110; width: 100%; }
+.cursive-title { font-family: 'Great Vibes', cursive; font-size: 3.5rem; color: white; text-shadow: 0 0 20px #ff4d6d; margin-bottom: 20px; }
+.next-btn { padding: 12px 30px; border-radius: 50px; border: none; background: white; color: var(--rose-red); font-weight: bold; cursor: pointer; animation: pulse 2.5s infinite; }
+
+/* Page 2: Letter */
+#page-2 { display: none; height: 100vh; align-items: center; justify-content: center; background: radial-gradient(circle, #ff9a9e 0%, #000 100%); }
+.letter-card { background: #fffaf0; width: 90%; max-width: 500px; padding: 40px; border-radius: 5px; opacity: 0; transition: 1.5s; transform: translateY(50px); }
+.letter-card.show { transform: translateY(0); opacity: 1; }
+.letter-header { font-family: 'Great Vibes', cursive; font-size: 2.6rem; color: var(--rose-red); margin-bottom: 20px; }
+.letter-text { font-family: 'Dancing Script', cursive; font-size: 1.6rem; line-height: 1.6; color: #444; }
+
+/* Interaction Classes */
+.ribbon-untie-v { transform: translateY(-300px) translateZ(102px) !important; opacity: 0; }
+.ribbon-untie-h { transform: translateX(300px) translateZ(102px) !important; opacity: 0; }
+.lid-open { transform: translateY(-500px) rotateX(110deg) !important; opacity: 0; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
